@@ -34,6 +34,33 @@
 		  
         }  , false);
       }
+	  
+	  if (navigator.geolocation)
+  var watchId = navigator.geolocation.watchPosition(successCallback, errorCallback, {enableHighAccuracy:true});
+else
+  alert("Votre navigateur ne prend pas en compte la géolocalisation HTML5");
+   
+function successCallback(position){
+	document.getElementById('latlng').innerHTML = position.coords.latitude + " - " + position.coords.longitude;
+};  
+ 
+function errorCallback(error){
+  switch(error.code){
+    case error.PERMISSION_DENIED:
+      alert("L'utilisateur n'a pas autorisé l'accès à sa position");
+      break;      
+    case error.POSITION_UNAVAILABLE:
+      alert("L'emplacement de l'utilisateur n'a pas pu être déterminé");
+      break;
+    case error.TIMEOUT:
+      alert("Le service n'a pas répondu à temps");
+      break;
+    }
+};
+ 
+  function stopWatch(){
+  navigator.geolocation.clearWatch(watchId);
+  }
     }
     </script>
 	<style>
@@ -71,16 +98,16 @@
                     <div class="modal-header">
                       <h4 class="modal-title">Compass</h4>
                     </div>
-					<div class="row">
+					<div class="row text-center">
 						<div class="col-lg-4 panel col-xs-5 panel panel-info col-md-offset-1 col-xs-offset-1">
 						  <div class="panel-heading">
-							<h3 class="panel-title">Orientation</h3>
+							<h3 class="panel-title">Ori</h3>
 						  </div>
 						  <div class="panel-body" id="orientation"></div>
 						</div>
 						<div class="col-lg-4 col-xs-5 panel panel-info col-md-offset-2">
 						  <div class="panel-heading">
-							<h3 class="panel-title">Latitude/Longitude</h3>
+							<h3 class="panel-title">Lat/Lon</h3>
 						  </div>
 						  <div class="panel-body" id="latlng"></div>
 						</div>
