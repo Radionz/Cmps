@@ -41,7 +41,7 @@ function init() {
     }
 
     var depart   = new google.maps.LatLng(lat,lon);
-    var arrivee  = new google.maps.LatLng(lat2,lon2);
+    var arrivee  = new google.maps.LatLng(43.705125, 7.192174);
     angle    = google.maps.geometry.spherical.computeHeading( depart, arrivee);
     $('#angle').text(angle);
     $('#latlng').html(position.coords.latitude + "</br>" + position.coords.longitude)
@@ -75,7 +75,7 @@ function findThisBuddy(id){
     lat2 = data.latitude;
     lon2 = data.longitude;
     var depart   = new google.maps.LatLng(lat,lon);
-    var arrivee  = new google.maps.LatLng(lat2,lon2);
+    var arrivee  = new google.maps.LatLng(43.705125, 7.192174);
     angle    = google.maps.geometry.spherical.computeHeading( depart, arrivee);
 
     $('#angle').text(angle);
