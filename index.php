@@ -30,8 +30,8 @@ session_start();
   <script src="./js/jquery-1.11.2.min.js"></script>
   <script src="./js/bootstrap.min.js"></script>
   <script src="./js/validator.js"></script>
-  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry"></script>
-  
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry"></script>
+
   <?php require_once 'dbaccess.php'; ?>
   <body onload="init()">
     <div class="container">
