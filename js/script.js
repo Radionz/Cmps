@@ -1,6 +1,9 @@
 var ori = 0;
 var lat = 0;
 var lon = 0;
+var lat2 = 0;
+var lon2 = 0;
+var angle = 0;
 function init() {
   var compass = document.getElementById('compassContainer');
   if(window.DeviceOrientationEvent) {
@@ -14,11 +17,7 @@ function init() {
       else alpha = event.alpha;
       if (alpha != null) {
         ori = Math.floor(alpha);
-
-        compass.style.Transform = 'rotate(' + alpha + 'deg)';
-        compass.style.WebkitTransform = 'rotate('+dir + alpha + 'deg)';
-        compass.style.MozTransform = 'rotate(' + alpha + 'deg)'; 
-        $("#orientation").text(Math.floor(alpha) + ' deg');
+        $("#orientation").text(ori + ' deg');
       }
 
     }  , false);
@@ -37,6 +36,13 @@ function init() {
       lon = position.coords.longitude;
     }
 
+    var depart   = new google.maps.LatLng(lat,lon);
+    var arrivee  = new google.maps.LatLng(lat2, lon2);
+    angle    = google.maps.geometry.spherical.computeHeading( depart, arrivee);
+    compass.style.Transform = 'rotate(' + angle + 'deg)';
+    compass.style.WebkitTransform = 'rotate(' + angle + 'deg)';
+    compass.style.MozTransform = 'rotate(' + angle + 'deg)'; 
+    $('#angle').text(angle);
     $('#latlng').html(position.coords.latitude + "</br>" + position.coords.longitude)
   }
 
@@ -59,22 +65,44 @@ function init() {
   }
 }//fin init
 
+var temp = 0;
+var first = true;
 function findThisBuddy(id){
   $.post( "request_buddy.php", { id: id }, function( data ) {
     $("#orientation2").html(data.name+"</br>"+data.orientation+" deg");
     $("#latlng2").html(data.name+"</br>"+data.latitude+"</br>"+data.longitude);
+    lat2 = data.latitude;
+    lon2 = data.longitude;
+
+    var depart   = new google.maps.LatLng(lat,lon);
+    var arrivee  = new google.maps.LatLng(lat2, lon2);
+    angle    = google.maps.geometry.spherical.computeHeading( depart, arrivee);
+    compass.style.Transform = 'rotate(' + angle + 'deg)';
+    compass.style.WebkitTransform = 'rotate(' + angle + 'deg)';
+    compass.style.MozTransform = 'rotate(' + angle + 'deg)';
+    $('#angle').text(angle);
   }, "json");
-  if (id!=old_id) {
+
+
+  if(temp == id){
+    $("#"+id+"").addClass('disabled');
+    finder = setTimeout("findThisBuddy("+id+")", 200);
+  }else if(!first){
+    $("#"+temp+"").removeClass('disabled');
     clearTimeout(finder);
+    first = true;
+  }    
+  if(first){
+    temp = id;
+    $("#"+id+"").addClass('disabled');
+    first = false;
+    finder = setTimeout("findThisBuddy("+id+")", 200);
   }
-  var old_id = id;
-  finder = setTimeout("findThisBuddy("+id+")", 2000);
+
 }
 
 function storeInformationAboutMe(id){
   $.post( "request_store.php", { id:id, latitude: lat, longitude: lon, orientation: ori }, function(data) {
-    console.log(data);
-
     $("#users").html("");
     data.forEach(function(entry) {
       if(entry.connected){
@@ -83,12 +111,12 @@ function storeInformationAboutMe(id){
       else{
         class_btn = "btn-primary";
       }
-      $("#users").append("<a class='btn "+class_btn+" btn-xs space-around' onclick='findThisBuddy("+entry.id+")'>"+entry.name+"</a>");
+      $("#users").append("<a class='btn "+class_btn+" btn-xs space-around' id='"+entry.id+"' onclick='findThisBuddy("+entry.id+")'>"+entry.name+"</a>");
     });
     
   }, "json");
 
-  setTimeout("storeInformationAboutMe("+id+")", 1000);
+  setTimeout("storeInformationAboutMe("+id+")", 200);
 }
 
 jQuery(document).ready(function($) {

@@ -5,7 +5,7 @@ session_start();
 require_once 'dbaccess.php';
 
 if (isset($_POST)) {
-	$sql = 'SELECT * FROM "User" WHERE id=?';
+	$sql = 'SELECT * FROM "User" WHERE id=? ORDER BY id';
 	$q = $db->prepare($sql);
 	$q->execute(array($_POST["id"]));
 

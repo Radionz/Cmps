@@ -30,6 +30,8 @@ session_start();
   <script src="./js/jquery-1.11.2.min.js"></script>
   <script src="./js/bootstrap.min.js"></script>
   <script src="./js/validator.js"></script>
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry"></script>
+  
   <?php require_once 'dbaccess.php'; ?>
   <body onload="init()">
     <div class="container">
@@ -49,13 +51,15 @@ session_start();
         <div class="modal">
           <div class="modal-dialog">
             <div class="modal-content">
-              <?php
-              if (isset($_SESSION['id'])) {
-                require_once 'compass.php';
-              }else{
-                require_once 'login.php';
-              }
-              ?>
+              <div class="modal-body">
+                <?php
+                if (isset($_SESSION['id'])) {
+                  require_once 'compass.php';
+                }else{
+                  require_once 'login.php';
+                }
+                ?>
+              </div>
             </div>
           </div>
         </div>

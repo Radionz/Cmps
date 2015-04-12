@@ -10,7 +10,7 @@ if (isset($_POST) && !empty($_POST)) {
 	$q->execute(array($_POST["latitude"],$_POST["longitude"],$_POST["orientation"],$_POST["id"]));
 }
 
-$sql = 'SELECT * FROM "User"';
+$sql = 'SELECT * FROM "User" ORDER BY id';
 $q = $db->prepare($sql);
 $q->execute();
 
@@ -18,9 +18,11 @@ $users = $q->fetchAll();
 $arr = array();
 
 foreach ($users as $row) {
-	$arr[] = array('id'=>$row['id'],
-		'name'=>$row['name'],
-		'connected'=>$row['connected']);
+	if($row['id']!=$_SESSION['id']){
+		$arr[] = array('id'=>$row['id'],
+			'name'=>$row['name'],
+			'connected'=>$row['connected']);
+	}
 }
 
 echo json_encode($arr);

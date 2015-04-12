@@ -24,7 +24,9 @@ $('#form').validator().on('submit', function (e) {
     // handle the invalid form...
   } else {
     $.post('request_login.php', {login: $('#inputNom').val()}, function(data) {
-    }, "json");
+    }, "json").done(function() {
+      location.reload(true);
+    });
   }
 });
 </script>
