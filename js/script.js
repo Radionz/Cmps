@@ -17,6 +17,10 @@ function init() {
       else alpha = event.alpha;
       if (alpha != null) {
         ori = Math.floor(alpha);
+        var temp = alpha + angle;
+        compass.style.Transform = 'rotate(' + temp+  'deg)';
+        compass.style.WebkitTransform = 'rotate(' + temp + 'deg)';
+        compass.style.MozTransform = 'rotate(' + temp + 'deg)'; 
         $("#orientation").text(ori + ' deg');
       }
 
@@ -37,11 +41,8 @@ function init() {
     }
 
     var depart   = new google.maps.LatLng(lat,lon);
-    var arrivee  = new google.maps.LatLng(lat2, lon2);
+    var arrivee  = new google.maps.LatLng(lat2,lon2);
     angle    = google.maps.geometry.spherical.computeHeading( depart, arrivee);
-    compass.style.Transform = 'rotate(' + angle + 'deg)';
-    compass.style.WebkitTransform = 'rotate(' + angle + 'deg)';
-    compass.style.MozTransform = 'rotate(' + angle + 'deg)'; 
     $('#angle').text(angle);
     $('#latlng').html(position.coords.latitude + "</br>" + position.coords.longitude)
   }
@@ -73,13 +74,10 @@ function findThisBuddy(id){
     $("#latlng2").html(data.name+"</br>"+data.latitude+"</br>"+data.longitude);
     lat2 = data.latitude;
     lon2 = data.longitude;
-
     var depart   = new google.maps.LatLng(lat,lon);
-    var arrivee  = new google.maps.LatLng(lat2, lon2);
+    var arrivee  = new google.maps.LatLng(lat2,lon2);
     angle    = google.maps.geometry.spherical.computeHeading( depart, arrivee);
-    compass.style.Transform = 'rotate(' + angle + 'deg)';
-    compass.style.WebkitTransform = 'rotate(' + angle + 'deg)';
-    compass.style.MozTransform = 'rotate(' + angle + 'deg)';
+
     $('#angle').text(angle);
   }, "json");
 
@@ -99,6 +97,13 @@ function findThisBuddy(id){
     finder = setTimeout("findThisBuddy("+id+")", 200);
   }
 
+}
+
+function mapsToDeviceOrientation(angle){
+  if(angle < 0){
+    return (angle+360);
+  }
+  return angle;
 }
 
 function storeInformationAboutMe(id){
