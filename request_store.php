@@ -7,7 +7,7 @@ require_once 'dbaccess.php';
 if (isset($_POST) && !empty($_POST)) {
 	$sql = 'UPDATE "User" SET latitude=?, longitude=?, orientation=? WHERE id=?';
 	$q = $db->prepare($sql);
-	$q->execute(array($_POST["latitude"],$_POST["longitude"],$_POST["orientation"],122));
+	$q->execute(array($_POST["latitude"],$_POST["longitude"],$_POST["orientation"],$_POST["id"]));
 }
 
 $sql = 'SELECT * FROM "User"';

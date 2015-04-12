@@ -71,9 +71,8 @@ function findThisBuddy(id){
   finder = setTimeout("findThisBuddy("+id+")", 1000);
 }
 
-function storeInformationAboutMe(){
-  console.log('lat '+lat+'\nlon '+lon+'\nori '+ori);
-  $.post( "request_store.php", { latitude: lat, longitude: lon, orientation: ori }, function(data) {
+function storeInformationAboutMe(id){
+  $.post( "request_store.php", { id:id, latitude: lat, longitude: lon, orientation: ori }, function(data) {
     console.log(data);
 
     $("#users").html("");
@@ -85,13 +84,15 @@ function storeInformationAboutMe(){
         class_btn = "btn-primary";
       }
       $("#users").append("<a class='btn "+class_btn+" btn-xs space-around' onclick='findThisBuddy("+entry.id+")'>"+entry.name+"</a>");
-  });
+    });
     
   }, "json");
 
-  setTimeout("storeInformationAboutMe()", 1000);
+  setTimeout("storeInformationAboutMe("+id+")", 1000);
 }
 
 jQuery(document).ready(function($) {
-  storeInformationAboutMe();
+  $.get('request_id.php', function(data) {
+    storeInformationAboutMe(data);
+  });
 });

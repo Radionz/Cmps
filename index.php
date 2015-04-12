@@ -1,7 +1,6 @@
 <?php
 // Start the session
 session_start();
-$_SESSION['login']="Dorian";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -51,16 +50,16 @@ $_SESSION['login']="Dorian";
           <div class="modal-dialog">
             <div class="modal-content">
               <?php
-              if (isset($_SESSION['login'])) {
-               require_once 'compass.php';
-             }else{
-              require_once 'login.php';
-            }
-            ?>
+              if (isset($_SESSION['id'])) {
+                require_once 'compass.php';
+              }else{
+                require_once 'login.php';
+              }
+              ?>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>
