@@ -1,3 +1,11 @@
 #banner {
   min-height: 0px;
 }
+
+.page-header {
+	margin: 0px;
+}
+
+.space-around{
+	margin: 1px;
+}
