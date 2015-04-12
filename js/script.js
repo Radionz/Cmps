@@ -68,7 +68,7 @@ function findThisBuddy(id){
     clearTimeout(finder);
   }
   var old_id = id;
-  finder = setTimeout("findThisBuddy("+id+")", 1000);
+  finder = setTimeout("findThisBuddy("+id+")", 2000);
 }
 
 function storeInformationAboutMe(id){
